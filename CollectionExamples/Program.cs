@@ -1,6 +1,8 @@
-﻿using System;
+﻿using CollectionExamples.LinqStuff;
+using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Linq;
 
 namespace CollectionExamples
 {
@@ -8,6 +10,10 @@ namespace CollectionExamples
     {
         static void Main(string[] args)
         {
+            var example = new Example();
+            example.Run();
+
+
             //Lists are a general purpose collection that is pretty good at everything. 
             var instructors = new List<string>();
             var students = new List<string>();
@@ -61,10 +67,18 @@ namespace CollectionExamples
             words.Add("scrupulous", "Diligent, thorough");
             words.Add("congratulate", "to be excited for");
 
+
+            //USING LINQ with Dictionaries - when you do a lambda expression, you still need the key-value pair!!
+            words.Any(word => word.Key == "pedantic");
+
+            //YOU CSN transform a dictionary into something that isn't a dictionary > into a list for ex:
+            var keys = words.Select(word => word.Key);
+            var definitions = words.Select(word => word.Value);
+
             //keys must be unique - this won't work:
             //words.Add("Congratulate", "not a real thing");
 
-            //to chaneg the value of an item ina Dictionary: pull it out by its key and then set it to the new value!!
+            //to change the value of an item ina Dictionary: pull it out by its key and then set it to the new value!!
             words["congratulate"] = "stuff";
 
             Console.WriteLine($"The fake definition of Scrupulous is {words["scrupulous"]}");
@@ -81,10 +95,10 @@ namespace CollectionExamples
                 Console.WriteLine($"The fake definition of {word} is {definition}.");
             }
 
-            var wordsWithMultiplDefinitions = new Dictionary<string, List<string>>();
+            var wordsWithMultipleDefinitions = new Dictionary<string, List<string>>();
 
             //collection initializer example in the list argument below:
-            wordsWithMultiplDefinitions.Add("scrupulous", new List<string>()
+            wordsWithMultipleDefinitions.Add("scrupulous", new List<string>()
             {
                 "Diligent",
                 "Thorough",
@@ -113,10 +127,10 @@ namespace CollectionExamples
                 }
             };
 
-            foreach (var (word, definitions) in wordsWithMultiplDefinitions)
+            foreach (var (word, definitions1) in wordsWithMultipleDefinitions)
             {
                 Console.WriteLine($"{word} is defined as:");
-                foreach(var definition in definitions)
+                foreach(var definition in definitions1)
                 {
                     Console.WriteLine($"    {definition}");
                 }
